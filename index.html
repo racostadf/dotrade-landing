@@ -10,27 +10,27 @@
   <style>
     /* ── TOKENS ──────────────────────────────────────────────── */
     :root {
-      --page-bg:       #c0b820;
-      --shell-bg:      radial-gradient(circle at 22% 18%, rgba(168,40,40,0.09), transparent 24%),
-                       linear-gradient(180deg, #ddd63e 0%, #d0ca2e 100%);
-      --shell-border:  rgba(0,0,0,0.08);
-      --text:          #1a1400;
-      --sub:           #3a3200;
+      --page-bg:       #ececec;
+      --shell-bg:      radial-gradient(circle at 22% 18%, rgba(168,40,40,0.10), transparent 24%),
+                       linear-gradient(180deg, #f8f8f8 0%, #ededed 100%);
+      --shell-border:  rgba(0,0,0,0.06);
+      --text:          #0f0f10;
+      --sub:           #4a4a4d;
       --accent:        #a83232;
       --accent2:       #d49b20;
-      --green:         #1a7a3e;
-      --pill-bg:       rgba(255,255,255,0.55);
-      --pill-border:   rgba(0,0,0,0.10);
-      --pill-text:     #3a3200;
-      --secondary-bg:  rgba(255,255,255,0.55);
-      --secondary-border: rgba(0,0,0,0.12);
-      --secondary-text:   #1a1400;
-      --feature-bg:    rgba(255,255,255,0.50);
-      --feature-border: rgba(0,0,0,0.07);
-      --shadow:        0 22px 70px rgba(30,24,0,0.18);
-      --card-bg:       #fffbe0;
-      --card-sub:      #3a3200;
-      --divider:       rgba(0,0,0,0.08);
+      --green:         #1e8a4a;
+      --pill-bg:       #ffffff;
+      --pill-border:   rgba(0,0,0,0.06);
+      --pill-text:     #5b5b60;
+      --secondary-bg:  #ffffff;
+      --secondary-border: rgba(0,0,0,0.10);
+      --secondary-text:   #111111;
+      --feature-bg:    rgba(255,255,255,0.72);
+      --feature-border: rgba(0,0,0,0.06);
+      --shadow:        0 22px 70px rgba(20,20,20,0.12);
+      --card-bg:       #fbf8f3;
+      --card-sub:      #48423b;
+      --divider:       rgba(0,0,0,0.07);
       --invert-bg:     #0f0f10;
       --invert-text:   #f5f2ec;
       --invert-muted:  rgba(245,242,236,0.55);
@@ -38,26 +38,26 @@
     }
 
     body.dark {
-      --page-bg:       #172010;
-      --shell-bg:      radial-gradient(circle at 20% 22%, rgba(140,20,20,0.22), transparent 26%),
-                       radial-gradient(circle at 75% 65%, rgba(30,60,20,0.35), transparent 30%),
-                       linear-gradient(135deg, #162012 0%, #1e2c17 46%, #132010 100%);
-      --shell-border:  rgba(255,255,255,0.09);
-      --text:          #eef2ea;
-      --sub:           rgba(220,232,210,0.62);
+      --page-bg:       #0a0a0a;
+      --shell-bg:      radial-gradient(circle at 20% 22%, rgba(140,20,20,0.28), transparent 26%),
+                       radial-gradient(circle at 72% 28%, rgba(212,155,32,0.07), transparent 18%),
+                       linear-gradient(135deg, #090909 0%, #111111 46%, #050505 100%);
+      --shell-border:  rgba(255,255,255,0.10);
+      --text:          #ffffff;
+      --sub:           rgba(255,255,255,0.65);
       --accent:        #c04444;
-      --pill-bg:       rgba(255,255,255,0.07);
-      --pill-border:   rgba(180,210,160,0.18);
-      --pill-text:     rgba(220,232,210,0.75);
-      --secondary-bg:  rgba(255,255,255,0.07);
-      --secondary-border: rgba(180,210,160,0.18);
-      --secondary-text:   #eef2ea;
-      --feature-bg:    rgba(255,255,255,0.04);
-      --feature-border: rgba(180,210,160,0.12);
-      --shadow:        0 25px 80px rgba(0,0,0,0.55);
-      --card-bg:       #223020;
-      --card-sub:      rgba(220,232,210,0.52);
-      --divider:       rgba(180,210,160,0.10);
+      --pill-bg:       rgba(255,255,255,0.08);
+      --pill-border:   rgba(255,255,255,0.10);
+      --pill-text:     rgba(255,255,255,0.80);
+      --secondary-bg:  rgba(255,255,255,0.08);
+      --secondary-border: rgba(255,255,255,0.10);
+      --secondary-text:   #ffffff;
+      --feature-bg:    rgba(255,255,255,0.05);
+      --feature-border: rgba(255,255,255,0.10);
+      --shadow:        0 25px 80px rgba(0,0,0,0.50);
+      --card-bg:       #1c1916;
+      --card-sub:      rgba(240,236,230,0.55);
+      --divider:       rgba(255,255,255,0.08);
       --invert-bg:     #ffffff;
       --invert-text:   #0f0f10;
       --invert-muted:  rgba(15,15,16,0.55);
@@ -122,10 +122,6 @@
     }
     .theme-toggle:hover { transform: translateY(-1px); }
     .theme-toggle svg { width: 18px; height: 18px; }
-
-    /* ── LIGHT MODE BUTTON OVERRIDES (yellow bg) ────────────── */
-    body:not(.dark) .btn-primary   { background: #1a1600; color: #ffffff; }
-    body:not(.dark) .btn-secondary { background: #ffffff; color: #1a1600; border: 1px solid rgba(0,0,0,0.12); }
 
     /* ── ANNOUNCEMENT PILL ───────────────────────────────────── */
     .announce-wrap {
