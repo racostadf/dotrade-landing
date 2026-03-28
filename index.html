@@ -75,9 +75,9 @@
     }
 
     /* ── PAGE + SHELL ────────────────────────────────────────── */
-    .page  { min-height: 100vh; padding: 12px; }
+    .page  { min-height: 100vh; padding: 20px 48px; }
     .shell {
-      max-width: 1380px;
+      max-width: 1180px;
       margin: 0 auto;
       border-radius: 34px;
       overflow: hidden;
@@ -116,17 +116,19 @@
       border: 1px solid var(--secondary-border);
       background: var(--secondary-bg);
       color: var(--secondary-text);
-      border-radius: 999px; padding: 10px 18px;
-      font-size: 14px; font-weight: 600; font-family: inherit;
-      cursor: pointer; transition: all 0.3s ease;
+      border-radius: 50%; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
     }
     .theme-toggle:hover { transform: translateY(-1px); }
+    .theme-toggle svg { width: 18px; height: 18px; }
 
     /* ── HERO ────────────────────────────────────────────────── */
     .hero {
       display: grid; grid-template-columns: 1.05fr 0.95fr;
       align-items: center; gap: 32px;
-      padding: 8px 48px 64px;
+      padding: 56px 48px 72px;
+      min-height: 82vh;
     }
     .hero h1 {
       font-size: clamp(58px, 8vw, 92px);
@@ -152,7 +154,7 @@
     }
     .btn-primary:hover, .btn-secondary:hover, .card-button:hover, .theme-toggle:hover { transform: translateY(-1px); }
     .btn-primary   { background: #e8b83a; color: #111; padding: 14px 22px; font-size: 14px; }
-    .btn-secondary { background: var(--secondary-bg); color: var(--secondary-text); border: 1px solid var(--secondary-border); padding: 14px 22px; font-size: 14px; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--divider); padding: 14px 22px; font-size: 14px; }
 
     .swipe-hint { display: flex; gap: 10px; margin-top: 22px; align-items: center; flex-wrap: wrap; }
     .swipe-btn {
@@ -181,19 +183,24 @@
     .card-stack { position: relative; width: 430px; height: 430px; }
 
     .floating-card {
-      position: absolute; width: 238px; padding: 12px;
+      position: absolute; width: 238px;
       border-radius: 18px; border: 1px solid rgba(0,0,0,0.10);
-      background: var(--card-bg); color: var(--text);
+      background: #ffffff;
+      overflow: hidden;
       box-shadow: 0 22px 50px rgba(0,0,0,0.18);
-      transition: left 0.9s ease, top 0.9s ease, transform 0.9s ease,
-                  filter 0.9s ease, opacity 0.9s ease, background 0.45s ease;
+      transition: left 1.6s cubic-bezier(0.4,0,0.2,1),
+                  top  1.6s cubic-bezier(0.4,0,0.2,1),
+                  transform 1.6s cubic-bezier(0.4,0,0.2,1),
+                  filter  1.6s ease,
+                  opacity 1.6s ease;
       will-change: left, top, transform;
     }
-    body.dark .floating-card { border-color: rgba(255,255,255,0.08); box-shadow: 0 22px 50px rgba(0,0,0,0.55); }
+    body.dark .floating-card { background: #2e2a26; border-color: rgba(255,255,255,0.12); box-shadow: 0 22px 50px rgba(0,0,0,0.55); }
 
-    .slot-front  { left: 0;     top: 32px; z-index: 3; opacity: 1;    filter: blur(0);     transform: rotate(-7deg) translateY(var(--fy,0px)) scale(1);    }
-    .slot-middle { left: 84px;  top: 40px; z-index: 2; opacity: 0.98; filter: blur(0);     transform: rotate(2deg)  translateY(var(--fy,0px)) scale(0.98); }
-    .slot-back   { left: 168px; top: 48px; z-index: 1; opacity: 0.95; filter: blur(0.2px); transform: rotate(9deg)  translateY(var(--fy,0px)) scale(0.96); }
+    .slot-front  { left: 0;     top: 32px;  z-index: 3; opacity: 1;    filter: blur(0);     transform: rotate(-7deg) translateY(var(--fy,0px)) scale(1);    }
+    .slot-middle { left: 84px;  top: 40px;  z-index: 2; opacity: 0.98; filter: blur(0);     transform: rotate(2deg)  translateY(var(--fy,0px)) scale(0.98); }
+    .slot-back   { left: 168px; top: 48px;  z-index: 1; opacity: 0.95; filter: blur(0.2px); transform: rotate(9deg)  translateY(var(--fy,0px)) scale(0.96); }
+    .slot-hidden { left: -280px; top: 40px; z-index: 0; opacity: 0;    filter: blur(2px);   transform: rotate(-12deg) translateY(0px) scale(0.88); pointer-events: none; }
 
     .float-a { animation: floatA 5.6s ease-in-out infinite; }
     .float-b { animation: floatB 6.2s ease-in-out infinite; }
@@ -204,33 +211,66 @@
     @keyframes floatB { 0%,100% { --fy: 0px; } 50% { --fy: -14px; } }
     @keyframes floatC { 0%,100% { --fy: 0px; } 50% { --fy:  -8px; } }
 
-    .card-dots { display: flex; gap: 4px; padding: 0 8px; margin-bottom: 12px; }
-    .dot       { width: 10px; height: 10px; border-radius: 999px; }
-    .dot.red    { background: #e88a7d; }
-    .dot.yellow { background: #eec44c; }
-    .dot.green  { background: #72c17a; }
+    /* ── ILLUSTRATED CARD ────────────────────────────────────── */
+    .floating-card { cursor: default; }
 
-    .floating-card h3 { margin: 0; padding: 0 8px; font-size: 19px; letter-spacing: -0.04em; font-weight: 900; }
-    .card-panel { margin-top: 12px; border-radius: 14px; padding: 12px; }
-    .panel-soft { background: #f1eee8; }
-    .panel-gold { background: #f0c946; }
-    .panel-rose { background: #f2d4da; }
-    body.dark .panel-soft { background: #2a2520; }
-    body.dark .panel-gold { background: #3a2e10; }
-    body.dark .panel-rose { background: #2a1a1e; }
+    .fc-header {
+      padding: 10px 14px 8px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    body.dark .fc-header { border-bottom-color: rgba(255,255,255,0.07); }
+    .fc-label {
+      font-size: 13px; font-weight: 800; letter-spacing: -0.03em;
+      color: #141210;
+    }
+    body.dark .fc-label { color: #f0ece6; }
+    .fc-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+      padding: 3px 8px; border-radius: 999px;
+      background: #f0ebe0; color: #706b64;
+    }
+    body.dark .fc-badge { background: rgba(255,255,255,0.08); color: rgba(240,236,230,0.6); }
 
-    .card-art { height: 132px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 64px; }
-    .art-soft { background: #ebe6de; }
-    .art-gold { background: #e2bd3f; }
-    .art-rose { background: #eec1ca; }
-    body.dark .art-soft { background: #1e1a15; }
-    body.dark .art-gold { background: #2e2408; }
-    body.dark .art-rose { background: #1e1014; }
+    .fc-art {
+      width: 100%; height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    body.dark .fc-art svg { filter: brightness(2.4) saturate(0.7); }
 
-    .card-body   { padding: 16px 8px 4px; }
-    .card-body p { margin: 0; color: var(--card-sub); font-size: 14px; line-height: 1.45; }
-    .card-button { width: 100%; margin-top: 16px; padding: 12px 16px; border-radius: 11px; background: #66635f; color: #fff; font-size: 14px; }
-    body.dark .card-button { background: rgba(255,255,255,0.15); }
+    .fc-body { padding: 12px 14px 14px; }
+    .fc-name {
+      font-size: 15px; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.2;
+      color: #141210; margin-bottom: 2px;
+    }
+    body.dark .fc-name { color: #f0ece6; }
+    .fc-cond { font-size: 11px; color: #908a82; margin-bottom: 10px; }
+    body.dark .fc-cond { color: rgba(240,236,230,0.50); }
+
+    .fc-wants {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 500;
+      padding: 6px 10px; background: #f4f1ec;
+      border-radius: 8px; margin-bottom: 10px;
+    }
+    body.dark .fc-wants { background: rgba(255,255,255,0.06); }
+    .fc-wants span { color: #908a82; }
+    body.dark .fc-wants span { color: rgba(240,236,230,0.45); }
+    .fc-wants strong { color: #141210; font-weight: 700; }
+    body.dark .fc-wants strong { color: #f0ece6; }
+
+    .fc-footer { display: flex; align-items: center; justify-content: space-between; }
+    .fc-user   { display: flex; align-items: center; gap: 6px; }
+    .fc-av {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800; color: white; flex-shrink: 0;
+    }
+    .fc-username { font-size: 11px; font-weight: 600; color: #706b64; }
+    body.dark .fc-username { color: rgba(240,236,230,0.55); }
+    .fc-match { font-size: 12px; font-weight: 800; color: #1e8a4a; letter-spacing: -0.02em; }
 
     /* ── DIVIDER ─────────────────────────────────────────────── */
     .divider { height: 1px; background: var(--divider); margin: 0 36px; }
@@ -256,7 +296,7 @@
     .how-section { padding: 72px 48px; }
     .how-grid-2 {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center; margin-top: 48px;
+      gap: 80px; align-items: center;
     }
     .steps { display: flex; flex-direction: column; gap: 32px; }
     .step {
@@ -277,11 +317,35 @@
 
     /* Phone mockup */
     .phone-wrap {
-      display: flex; justify-content: center;
+      display: flex; justify-content: center; align-items: center; align-self: stretch;
       opacity: 0; transform: translateX(36px);
       transition: opacity 0.65s ease 0.15s, transform 0.65s ease 0.15s;
     }
     .phone-wrap.visible { opacity: 1; transform: translateX(0); }
+
+    @keyframes howFloatA {
+      0%,100% { transform: rotate(-2deg) translateY(0px); }
+      50%      { transform: rotate(-2deg) translateY(-10px); }
+    }
+    @keyframes howFloatB {
+      0%,100% { transform: rotate(5deg) translateY(0px); }
+      50%      { transform: rotate(5deg) translateY(-8px); }
+    }
+    .how-cards-preview {
+      position: relative;
+      width: 300px; height: 480px;
+    }
+    .how-card-item .fc-art { height: 220px; }
+    .how-card-item {
+      position: absolute;
+      width: 252px;
+      border-radius: 18px; border: 1px solid rgba(0,0,0,0.10);
+      background: #ffffff; overflow: hidden;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.14);
+    }
+    body.dark .how-card-item { background: #2e2a26; border-color: rgba(255,255,255,0.14); box-shadow: 0 18px 60px rgba(0,0,0,0.70); }
+    .how-card-back  { top: 20px; left: 32px; transform: rotate(5deg); z-index: 1; opacity: 0.80; animation: howFloatB 4.2s ease-in-out infinite; }
+    .how-card-front { top: 8px;  left: 0;    transform: rotate(-2deg); z-index: 2; animation: howFloatA 3.6s ease-in-out infinite; }
     .phone {
       width: 238px; height: 480px;
       background: var(--secondary-bg);
@@ -310,7 +374,7 @@
     @keyframes phoneFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 
     /* ── FEATURES ────────────────────────────────────────────── */
-    .features-section { padding: 0 48px 72px; }
+    .features-section { padding: 72px 48px; }
     .features-grid-6 {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 14px; margin-top: 32px;
@@ -324,8 +388,8 @@
       transition: opacity 0.5s ease, transform 0.5s ease, background 0.45s, border-color 0.45s;
     }
     .feat-card.visible { opacity: 1; transform: translateY(0); }
-    .feat-icon { width: 36px; height: 36px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05); font-size: 18px; }
-    body.dark .feat-icon { background: rgba(255,255,255,0.10); }
+    .feat-icon { width: 38px; height: 38px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: var(--accent); flex-shrink: 0; }
+    .feat-icon svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .feat-card h3 { margin: 14px 0 7px; font-size: 17px; font-weight: 800; letter-spacing: -0.03em; }
     .feat-card p  { margin: 0; color: var(--sub); font-size: 14px; line-height: 1.65; }
 
@@ -336,35 +400,43 @@
       transition: background 0.45s;
     }
     .algo-inner {
-      max-width: 1380px; margin: 0 auto;
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 72px; align-items: center;
     }
+    .algo-inner > div { min-width: 0; }
+    .algo-inner > div:last-child { display: flex; align-items: center; justify-content: center; }
     .algo-tag   { color: var(--invert-muted); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
     .algo-title { font-size: clamp(36px, 4.5vw, 58px); font-weight: 900; line-height: 0.96; letter-spacing: -0.05em; color: var(--invert-text); margin-bottom: 18px; }
     .algo-body  { font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--invert-muted); max-width: 480px; }
 
-    .match-list { display: flex; flex-direction: column; gap: 12px; }
+    .match-list { display: flex; flex-direction: column; gap: 8px; width: min(340px, 100%); margin: 0 auto; }
     .match-row {
-      display: flex; align-items: center; gap: 16px;
+      display: flex; align-items: center; gap: 12px;
       background: var(--invert-row);
-      border-radius: 14px; padding: 16px 20px;
-      opacity: 0; transform: translateX(36px);
+      border-radius: 10px; padding: 13px 16px;
+      width: 100%; min-height: 54px;
+      opacity: 0; transform: translateY(12px);
       transition: opacity 0.5s ease, transform 0.5s ease, background 0.45s;
     }
-    .match-row.visible { opacity: 1; transform: translateX(0); }
-    .match-avatars { display: flex; }
+    .match-row.visible { opacity: 1; transform: translateY(0); }
+    .match-top   { display: none; }
+    .match-avatars { display: flex; flex-shrink: 0; }
     .match-av {
-      width: 34px; height: 34px; border-radius: 50%;
+      width: 36px; height: 36px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 15px;
-      margin-left: -6px; border: 2px solid var(--invert-bg);
+      background: rgba(255,255,255,0.18);
+      margin-left: 6px; border: 1px solid rgba(255,255,255,0.12);
+      flex-shrink: 0;
     }
     .match-av:first-child { margin-left: 0; }
-    .match-info  { flex: 1; }
-    .match-names { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; color: var(--invert-text); }
+    .match-avatars { gap: 0; }
+    .match-av svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    body.dark .match-av { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.10); }
+    body.dark .match-av svg { stroke: #2a2a2a; }
+    .match-info  { flex: 1; min-width: 0; }
+    .match-names { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; color: var(--invert-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .match-desc  { font-size: 12px; color: var(--invert-muted); margin-top: 2px; }
-    .match-pct   { font-size: 18px; font-weight: 900; color: #4ade80; letter-spacing: -0.03em; }
+    .match-pct   { font-size: 15px; font-weight: 900; color: #4ade80; letter-spacing: -0.02em; flex-shrink: 0; }
 
     /* ── CTA ─────────────────────────────────────────────────── */
     .cta-section {
@@ -377,22 +449,22 @@
     .cta-btns  { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
     .btn-cta-main {
       padding: 15px 36px;
-      background: var(--accent); color: white;
+      background: var(--accent); color: #fff;
       border: none; border-radius: 999px;
-      font-family: inherit; font-size: 16px; font-weight: 800;
+      font-family: inherit; font-size: 16px; font-weight: 700;
       letter-spacing: -0.02em; cursor: pointer; transition: all 0.25s;
     }
-    .btn-cta-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
-    .store-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .btn-cta-main:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .store-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .store-badge {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 18px;
-      background: var(--secondary-bg); border: 1px solid var(--secondary-border);
-      border-radius: 12px; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 16px;
+      background: transparent; border: 1px solid var(--divider);
+      border-radius: 999px; font-size: 13px; font-weight: 500;
       cursor: pointer; transition: all 0.2s;
       text-decoration: none; color: var(--text);
     }
-    .store-badge:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .store-badge:hover { background: var(--secondary-bg); }
 
     /* ── FOOTER ──────────────────────────────────────────────── */
     .footer-bar {
@@ -429,11 +501,15 @@
       .footer-bar { flex-direction: column; gap: 16px; text-align: center; }
     }
     @media (max-width: 640px) {
-      .page { padding: 8px; }
+      .page { padding: 8px 12px; }
       .header { padding: 18px 18px 10px; }
       .hero { padding: 8px 18px 36px; }
       .card-stack { transform: scale(0.9); transform-origin: center; }
       .features-grid-6 { grid-template-columns: 1fr; }
+      .algo-wrap { padding-inline: 18px; }
+      .match-list { width: 100%; max-width: 100%; }
+      .algo-body  { max-width: 100%; }
+      .algo-title { font-size: clamp(28px, 8.5vw, 40px); }
     }
   </style>
 </head>
@@ -471,7 +547,10 @@
       <a href="#features">Features</a>
       <a href="#algoritmo">Algoritmo</a>
     </nav>
-    <button class="theme-toggle" id="themeToggle">Escuro</button>
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+      <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="iconSun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
   </header>
 
   <!-- ── HERO ─────────────────────────────────────────────────── -->
@@ -490,46 +569,178 @@
         <button class="btn-primary">Entrar na lista — Grátis</button>
         <button class="btn-secondary">Ver como funciona</button>
       </div>
-      <div class="swipe-hint">
-        <button class="swipe-btn no">✕ Não Troca</button>
-        <button class="swipe-btn cash">💰 Compensa</button>
-        <button class="swipe-btn yes">✓ Troca!</button>
-      </div>
-      <p class="hero-note">
-        Um lugar simples para troca de itens, descoberta por localização e negociação com compensação financeira. Sem cadastro complicado, sem taxas escondidas.
-      </p>
     </div>
 
     <div class="hero-visual">
       <div class="card-stack" id="cardStack">
 
+        <!-- Card 1: PS5 -->
         <article class="floating-card slot-front float-a">
-          <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-          <h3>Troca PS5</h3>
-          <div class="card-panel panel-soft"><div class="card-art art-soft">🎮</div></div>
-          <div class="card-body">
-            <p>Troco por câmera, notebook ou item com diferença em dinheiro.</p>
-            <button class="card-button">Ver oferta</button>
+          <div class="fc-header">
+            <span class="fc-label">PS5 Digital Edition</span>
+            <span class="fc-badge">Semi-novo</span>
+          </div>
+          <div class="fc-art" style="background:linear-gradient(145deg,#e4e8f5 0%,#cdd4ee 100%)"
+               data-dark-bg="linear-gradient(145deg,#1a1f3d 0%,#2a3060 100%)">
+            <!-- PS5 Controller SVG -->
+            <svg width="110" height="90" viewBox="0 0 110 90" fill="none">
+              <rect x="18" y="28" width="74" height="40" rx="14" fill="#4a5490"/>
+              <rect x="12" y="52" width="22" height="28" rx="10" fill="#3a4480"/>
+              <rect x="76" y="52" width="22" height="28" rx="10" fill="#3a4480"/>
+              <circle cx="32" cy="44" r="9" fill="#2a3470"/>
+              <circle cx="32" cy="44" r="5" fill="#1e2860"/>
+              <circle cx="72" cy="54" r="9" fill="#2a3470"/>
+              <circle cx="72" cy="54" r="5" fill="#1e2860"/>
+              <rect x="40" y="50" width="6" height="18" rx="2" fill="#3a4480"/>
+              <rect x="34" y="56" width="18" height="6" rx="2" fill="#3a4480"/>
+              <circle cx="84" cy="34" r="4" fill="#c04468"/>
+              <circle cx="76" cy="40" r="4" fill="#4488c0"/>
+              <circle cx="84" cy="46" r="4" fill="#44a860"/>
+              <circle cx="92" cy="40" r="4" fill="#c8a020"/>
+              <rect x="46" y="34" width="18" height="6" rx="3" fill="#5560a0"/>
+              <rect x="44" y="42" width="22" height="14" rx="4" fill="#6070b0"/>
+            </svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-name">PS5 Digital Edition</div>
+            <div class="fc-cond">São Paulo, SP · 1 ano de uso</div>
+            <div class="fc-wants"><span>Quer:</span><strong>Câmera Sony ou Notebook</strong></div>
+            <div class="fc-footer">
+              <div class="fc-user">
+                <div class="fc-av" style="background:#a83232">R</div>
+                <span class="fc-username">Rodrigo M.</span>
+              </div>
+              <span class="fc-match">94% match</span>
+            </div>
           </div>
         </article>
 
+        <!-- Card 2: Camiseta -->
         <article class="floating-card slot-middle float-b">
-          <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-          <h3>Match IA</h3>
-          <div class="card-panel panel-gold"><div class="card-art art-gold">🚲</div></div>
-          <div class="card-body">
-            <p>Sugestões próximas baseadas em localização, valor e score de match.</p>
-            <button class="card-button">Melhor match</button>
+          <div class="fc-header">
+            <span class="fc-label">Camiseta Vintage M</span>
+            <span class="fc-badge">Quase nova</span>
+          </div>
+          <div class="fc-art" style="background:linear-gradient(145deg,#f5ede4 0%,#e8d8c8 100%)"
+               data-dark-bg="linear-gradient(145deg,#2a1a10 0%,#3a2818 100%)">
+            <!-- T-shirt SVG -->
+            <svg width="110" height="96" viewBox="0 0 110 96" fill="none">
+              <!-- shirt body: shoulders, sleeves, torso -->
+              <path d="M38 18 Q55 32 72 18 L100 32 L88 52 L76 44 L76 86 L34 86 L34 44 L22 52 L10 32 Z"
+                    fill="#b85c40"/>
+              <!-- collar shadow -->
+              <path d="M38 18 Q55 32 72 18" fill="none" stroke="#a04830" stroke-width="2"/>
+              <!-- left sleeve shading -->
+              <path d="M10 32 L22 52 L34 44 L38 18 Z" fill="#a04830" opacity="0.3"/>
+              <!-- right sleeve shading -->
+              <path d="M100 32 L88 52 L76 44 L72 18 Z" fill="#a04830" opacity="0.3"/>
+              <!-- front placket line -->
+              <line x1="55" y1="32" x2="55" y2="86" stroke="#a04830" stroke-width="1.2" opacity="0.4"/>
+              <!-- pocket -->
+              <rect x="38" y="48" width="14" height="12" rx="2" fill="none" stroke="#a04830" stroke-width="1.2" opacity="0.5"/>
+              <!-- hem fold -->
+              <line x1="34" y1="82" x2="76" y2="82" stroke="#a04830" stroke-width="1.5" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-name">Camiseta Vintage M</div>
+            <div class="fc-cond">Rio de Janeiro, RJ · usada 3x</div>
+            <div class="fc-wants"><span>Quer:</span><strong>Tênis ou Boné</strong></div>
+            <div class="fc-footer">
+              <div class="fc-user">
+                <div class="fc-av" style="background:#8a4820">L</div>
+                <span class="fc-username">Lucas T.</span>
+              </div>
+              <span class="fc-match">87% match</span>
+            </div>
           </div>
         </article>
 
+        <!-- Card 3: Câmera -->
         <article class="floating-card slot-back float-c">
-          <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-          <h3>Câmera Sony</h3>
-          <div class="card-panel panel-rose"><div class="card-art art-rose">📷</div></div>
-          <div class="card-body">
-            <p>Excelente estado · Curitiba. Aceito iPhone 14 ou equivalente.</p>
-            <button class="card-button">Propor troca</button>
+          <div class="fc-header">
+            <span class="fc-label">Sony A6400 + Lente</span>
+            <span class="fc-badge">Excelente</span>
+          </div>
+          <div class="fc-art" style="background:linear-gradient(145deg,#f2ece0 0%,#e0d4c0 100%)"
+               data-dark-bg="linear-gradient(145deg,#2a1a0e 0%,#3d2812 100%)">
+            <!-- Camera SVG -->
+            <svg width="110" height="85" viewBox="0 0 110 85" fill="none">
+              <rect x="12" y="28" width="86" height="52" rx="8" fill="#8a6030"/>
+              <rect x="22" y="18" width="44" height="14" rx="4" fill="#7a5028"/>
+              <rect x="68" y="20" width="20" height="8" rx="3" fill="#6a4020"/>
+              <circle cx="44" cy="56" r="22" fill="#3a2810"/>
+              <circle cx="44" cy="56" r="18" fill="#2a1c08"/>
+              <circle cx="44" cy="56" r="14" fill="#4a3418"/>
+              <circle cx="44" cy="56" r="10" fill="#1e1408"/>
+              <circle cx="44" cy="56" r="7"  fill="#2a1c0c"/>
+              <circle cx="44" cy="56" r="4"  fill="#382410"/>
+              <ellipse cx="40" cy="52" rx="3" ry="2" fill="rgba(255,255,255,0.18)" transform="rotate(-20 40 52)"/>
+              <circle cx="82" cy="22" r="5" fill="#604018"/>
+              <circle cx="82" cy="22" r="3" fill="#8a6030"/>
+              <circle cx="28" cy="22" r="6" fill="#604018"/>
+              <rect x="72" y="30" width="18" height="12" rx="2" fill="#2a1c08"/>
+              <rect x="68" y="48" width="22" height="16" rx="2" fill="#1a2840"/>
+              <rect x="70" y="50" width="18" height="12" rx="1" fill="#101828"/>
+            </svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-name">Sony A6400 + Lente 16-50</div>
+            <div class="fc-cond">Curitiba, PR · 6 meses de uso</div>
+            <div class="fc-wants"><span>Quer:</span><strong>iPhone 14 Pro ou equivalente</strong></div>
+            <div class="fc-footer">
+              <div class="fc-user">
+                <div class="fc-av" style="background:#8a3030">M</div>
+                <span class="fc-username">Marina S.</span>
+              </div>
+              <span class="fc-match">91% match</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: MacBook -->
+        <article class="floating-card slot-hidden">
+          <div class="fc-header">
+            <span class="fc-label">MacBook Air M2</span>
+            <span class="fc-badge">Semi-novo</span>
+          </div>
+          <div class="fc-art" style="background:linear-gradient(145deg,#f0f0f0 0%,#dcdcdc 100%)"
+               data-dark-bg="linear-gradient(145deg,#1e1e1e 0%,#2e2e2e 100%)">
+            <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+              <!-- screen -->
+              <rect x="22" y="8" width="76" height="48" rx="5" fill="#2a2a2e"/>
+              <rect x="26" y="12" width="68" height="40" rx="3" fill="#1a1a22"/>
+              <!-- screen content -->
+              <rect x="30" y="18" width="28" height="3" rx="1.5" fill="#4488ee" opacity="0.8"/>
+              <rect x="30" y="24" width="20" height="2" rx="1" fill="#888" opacity="0.5"/>
+              <rect x="30" y="29" width="24" height="2" rx="1" fill="#888" opacity="0.4"/>
+              <rect x="30" y="34" width="16" height="2" rx="1" fill="#888" opacity="0.3"/>
+              <!-- code lines right -->
+              <rect x="66" y="18" width="22" height="2" rx="1" fill="#44cc88" opacity="0.7"/>
+              <rect x="66" y="23" width="18" height="2" rx="1" fill="#ee8844" opacity="0.6"/>
+              <rect x="66" y="28" width="20" height="2" rx="1" fill="#cc44aa" opacity="0.5"/>
+              <rect x="66" y="33" width="14" height="2" rx="1" fill="#44cc88" opacity="0.4"/>
+              <!-- apple logo -->
+              <circle cx="60" cy="6" r="3" fill="#3a3a40"/>
+              <!-- base -->
+              <rect x="10" y="56" width="100" height="6" rx="3" fill="#b0b0b8"/>
+              <!-- trackpad -->
+              <rect x="46" y="58" width="28" height="3" rx="1.5" fill="#9898a0"/>
+              <!-- hinge -->
+              <rect x="22" y="54" width="76" height="3" rx="1" fill="#c0c0c8"/>
+            </svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-name">MacBook Air M2 13"</div>
+            <div class="fc-cond">Belo Horizonte, MG · 8 meses de uso</div>
+            <div class="fc-wants"><span>Quer:</span><strong>PS5 ou iPad Pro</strong></div>
+            <div class="fc-footer">
+              <div class="fc-user">
+                <div class="fc-av" style="background:#4466aa">F</div>
+                <span class="fc-username">Felipe A.</span>
+              </div>
+              <span class="fc-match">89% match</span>
+            </div>
           </div>
         </article>
 
@@ -541,9 +752,9 @@
 
   <!-- ── COMO FUNCIONA ─────────────────────────────────────────── -->
   <section class="how-section" id="como-funciona">
-    <div class="section-tag">✦ Como funciona</div>
     <div class="how-grid-2">
       <div>
+        <div class="section-tag">✦ Como funciona</div>
         <h2 class="section-title">Simples como<br>um deslize</h2>
         <div class="steps">
           <div class="step">
@@ -570,20 +781,70 @@
         </div>
       </div>
       <div class="phone-wrap">
-        <div class="phone">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-card">
-              <div class="phone-card-emoji">🎮</div>
-              <div class="phone-card-name">PS5 Digital</div>
-              <div class="phone-card-sub">Semi-novo · São Paulo</div>
+        <div class="how-cards-preview">
+          <!-- back card -->
+          <article class="how-card-item how-card-back">
+            <div class="fc-header">
+              <span class="fc-label">Camiseta Vintage M</span>
+              <span class="fc-badge">Quase nova</span>
             </div>
-          </div>
-          <div class="phone-actions">
-            <div class="p-btn">✕</div>
-            <div class="p-btn">💰</div>
-            <div class="p-btn">✓</div>
-          </div>
+            <div class="fc-art" style="background:linear-gradient(145deg,#f5ede4 0%,#e8d8c8 100%);"
+              data-light-bg="linear-gradient(145deg,#f5ede4 0%,#e8d8c8 100%)" data-dark-bg="linear-gradient(145deg,#3a2e28 0%,#2a2018 100%)">
+              <svg width="90" height="78" viewBox="0 0 110 96" fill="none">
+                <path d="M38 18 Q55 32 72 18 L100 32 L88 52 L76 44 L76 86 L34 86 L34 44 L22 52 L10 32 Z" fill="#b85c40"/>
+                <path d="M38 18 Q55 32 72 18" fill="none" stroke="#a04830" stroke-width="2"/>
+                <path d="M10 32 L22 52 L34 44 L38 18 Z" fill="#a04830" opacity="0.3"/>
+                <path d="M100 32 L88 52 L76 44 L72 18 Z" fill="#a04830" opacity="0.3"/>
+                <line x1="55" y1="32" x2="55" y2="86" stroke="#a04830" stroke-width="1.2" opacity="0.4"/>
+                <rect x="38" y="48" width="14" height="12" rx="2" fill="none" stroke="#a04830" stroke-width="1.2" opacity="0.5"/>
+                <line x1="34" y1="82" x2="76" y2="82" stroke="#a04830" stroke-width="1.5" opacity="0.3"/>
+              </svg>
+            </div>
+            <div class="fc-body">
+              <div class="fc-name">Camiseta Vintage M</div>
+              <div class="fc-cond">Rio de Janeiro, RJ</div>
+              <div class="fc-wants"><span>Quer:</span><strong>Tênis ou Boné</strong></div>
+            </div>
+          </article>
+          <!-- front card -->
+          <article class="how-card-item how-card-front">
+            <div class="fc-header">
+              <span class="fc-label">PS5 Digital Edition</span>
+              <span class="fc-badge">Semi-novo</span>
+            </div>
+            <div class="fc-art" style="background:linear-gradient(145deg,#e4e8f5 0%,#cdd4ee 100%);"
+              data-light-bg="linear-gradient(145deg,#e4e8f5 0%,#cdd4ee 100%)" data-dark-bg="linear-gradient(145deg,#1e2240 0%,#151830 100%)">
+              <svg width="100" height="72" viewBox="0 0 110 90" fill="none">
+                <rect x="18" y="28" width="74" height="40" rx="14" fill="#4a5490"/>
+                <rect x="12" y="52" width="22" height="28" rx="10" fill="#3a4480"/>
+                <rect x="76" y="52" width="22" height="28" rx="10" fill="#3a4480"/>
+                <circle cx="32" cy="44" r="9" fill="#2a3470"/>
+                <circle cx="32" cy="44" r="5" fill="#1e2860"/>
+                <circle cx="72" cy="54" r="9" fill="#2a3470"/>
+                <circle cx="72" cy="54" r="5" fill="#1e2860"/>
+                <rect x="40" y="50" width="6" height="18" rx="2" fill="#3a4480"/>
+                <rect x="34" y="56" width="18" height="6" rx="2" fill="#3a4480"/>
+                <circle cx="84" cy="34" r="4" fill="#c04468"/>
+                <circle cx="76" cy="40" r="4" fill="#4488c0"/>
+                <circle cx="84" cy="46" r="4" fill="#44a860"/>
+                <circle cx="92" cy="40" r="4" fill="#c8a020"/>
+                <rect x="46" y="34" width="18" height="6" rx="3" fill="#5560a0"/>
+                <rect x="44" y="42" width="22" height="14" rx="4" fill="#6070b0"/>
+              </svg>
+            </div>
+            <div class="fc-body">
+              <div class="fc-name">PS5 Digital Edition</div>
+              <div class="fc-cond">São Paulo, SP</div>
+              <div class="fc-wants"><span>Quer:</span><strong>Câmera Sony</strong></div>
+              <div class="fc-footer">
+                <div class="fc-user">
+                  <div class="fc-av" style="background:#a83232">R</div>
+                  <span class="fc-username">Rodrigo M.</span>
+                </div>
+                <span class="fc-match">94% match</span>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </div>
@@ -597,32 +858,32 @@
     <h2 class="section-title">Tudo que uma<br>boa troca precisa</h2>
     <div class="features-grid-6">
       <article class="feat-card">
-        <div class="feat-icon">🤝</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 0 1 6-6h1"/><path d="M16 13l2 2 4-4"/></svg></div>
         <h3>Match inteligente</h3>
         <p>Algoritmo analisa o que você tem e o que quer para sugerir pares com alta compatibilidade automaticamente.</p>
       </article>
       <article class="feat-card">
-        <div class="feat-icon">💰</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <h3>Compensação financeira</h3>
         <p>Valores diferentes? Proponha uma compensação justa e feche do jeito que faz sentido para os dois lados.</p>
       </article>
       <article class="feat-card">
-        <div class="feat-icon">🔒</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
         <h3>Reputação verificada</h3>
         <p>Sistema de avaliações e histórico de trocas para você saber com quem está negociando antes de fechar.</p>
       </article>
       <article class="feat-card">
-        <div class="feat-icon">📍</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
         <h3>Trocas por região</h3>
         <p>Filtre por proximidade e encontre trocas na sua cidade, bairro ou até na sua rua.</p>
       </article>
       <article class="feat-card">
-        <div class="feat-icon">💬</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <h3>Chat integrado</h3>
         <p>Converse diretamente após o match. Negocie, combine logística e confirme tudo dentro do app.</p>
       </article>
       <article class="feat-card">
-        <div class="feat-icon">🔔</div>
+        <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
         <h3>Alertas de match</h3>
         <p>Você é notificado em tempo real quando alguém com o que você quer aparecer na plataforma.</p>
       </article>
@@ -632,56 +893,79 @@
 </div><!-- .shell -->
 </div><!-- .page -->
 
-<!-- ── ALGORITMO — fora do shell para full-width ─────────────── -->
-<div class="algo-wrap" id="algoritmo">
-  <div class="algo-inner">
-    <div>
-      <div class="algo-tag">✦ Algoritmo</div>
-      <h2 class="algo-title">Trocas que<br>fazem sentido</h2>
-      <p class="algo-body">
-        O DoTrade cruza categorias, valores estimados, localização e preferências para calcular a compatibilidade de cada troca — em milissegundos.
-      </p>
-    </div>
-    <div class="match-list" id="matchList">
-      <div class="match-row">
-        <div class="match-avatars"><div class="match-av">🎮</div><div class="match-av">🚲</div></div>
-        <div class="match-info">
-          <div class="match-names">PS5 Digital ↔ Bicicleta Gravel</div>
-          <div class="match-desc">Rodrigo · Lucas — São Paulo</div>
-        </div>
-        <div class="match-pct">94%</div>
+<!-- ── ALGORITMO + CTA + FOOTER — segunda shell ──────────────── -->
+<div class="page" style="padding-top:0;">
+<div class="shell" style="margin-top:20px;">
+
+  <!-- ── ALGORITMO ───────────────────────────────────────────── -->
+  <div class="algo-wrap" id="algoritmo">
+    <div class="algo-inner">
+      <div>
+        <div class="algo-tag">✦ Algoritmo</div>
+        <h2 class="algo-title">Trocas que<br>fazem sentido</h2>
+        <p class="algo-body">
+          O DoTrade cruza categorias, valores estimados, localização e preferências para calcular a compatibilidade de cada troca — em milissegundos.
+        </p>
       </div>
-      <div class="match-row">
-        <div class="match-avatars"><div class="match-av">📷</div><div class="match-av">📱</div></div>
-        <div class="match-info">
-          <div class="match-names">Sony A6400 ↔ iPhone 14 Pro</div>
-          <div class="match-desc">Marina · Ana — Rio de Janeiro</div>
+      <div class="match-list" id="matchList">
+        <div class="match-row">
+          <div class="match-avatars">
+            <div class="match-av"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3"/><line x1="8" y1="12" x2="8" y2="12"/><line x1="6" y1="10" x2="6" y2="14"/><circle cx="15" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="17" cy="13" r="1" fill="currentColor" stroke="none"/></svg></div>
+            <div class="match-av"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3"/><circle cx="18.5" cy="17.5" r="3"/><path d="M15 6a1 1 0 0 0-1-1h-4l-3 8h12l-2-5H15V6z"/><line x1="5.5" y1="17.5" x2="8" y2="12"/></svg></div>
+          </div>
+          <div class="match-info">
+            <div class="match-names">PS5 ↔ Bicicleta Gravel</div>
+            <div class="match-desc">Rodrigo · Lucas — SP</div>
+          </div>
+          <div class="match-pct">94%</div>
         </div>
-        <div class="match-pct">91%</div>
-      </div>
-      <div class="match-row">
-        <div class="match-avatars"><div class="match-av">💻</div><div class="match-av">🎹</div></div>
-        <div class="match-info">
-          <div class="match-names">MacBook Air ↔ Teclado MIDI</div>
-          <div class="match-desc">Felipe · Camila — Curitiba</div>
+        <div class="match-row">
+          <div class="match-avatars">
+            <div class="match-av"><svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <div class="match-av"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18" stroke-width="2.5"/></svg></div>
+          </div>
+          <div class="match-info">
+            <div class="match-names">Sony A6400 ↔ iPhone 14</div>
+            <div class="match-desc">Marina · Ana — RJ</div>
+          </div>
+          <div class="match-pct">91%</div>
         </div>
-        <div class="match-pct">87%</div>
-      </div>
-      <div class="match-row">
-        <div class="match-avatars"><div class="match-av">🛸</div><div class="match-av">🎧</div></div>
-        <div class="match-info">
-          <div class="match-names">Drone DJI ↔ Headphones Sony</div>
-          <div class="match-desc">Bruno · Isabela — Belo Horizonte</div>
+        <div class="match-row">
+          <div class="match-avatars">
+            <div class="match-av"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M0 21h24"/></svg></div>
+            <div class="match-av"><svg viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="10" rx="2"/><line x1="6" y1="12" x2="6" y2="14"/><line x1="9" y1="12" x2="9" y2="14"/><line x1="12" y1="12" x2="12" y2="14"/><line x1="15" y1="12" x2="15" y2="14"/><line x1="18" y1="12" x2="18" y2="14"/></svg></div>
+          </div>
+          <div class="match-info">
+            <div class="match-names">MacBook Air ↔ Teclado MIDI</div>
+            <div class="match-desc">Felipe · Camila — Curitiba</div>
+          </div>
+          <div class="match-pct">87%</div>
         </div>
-        <div class="match-pct">82%</div>
+        <div class="match-row">
+          <div class="match-avatars">
+            <div class="match-av"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="10" rx="8" ry="4"/><line x1="4" y1="10" x2="2" y2="7"/><line x1="20" y1="10" x2="22" y2="7"/><line x1="12" y1="14" x2="12" y2="20"/><circle cx="12" cy="10" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+            <div class="match-av"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          </div>
+          <div class="match-info">
+            <div class="match-names">Drone DJI ↔ Headphones</div>
+            <div class="match-desc">Bruno · Isabela — BH</div>
+          </div>
+          <div class="match-pct">82%</div>
+        </div>
+        <div class="match-row">
+          <div class="match-avatars">
+            <div class="match-av"><svg viewBox="0 0 24 24"><line x1="6" y1="12" x2="18" y2="12"/><path d="M4 9h2v6H4z"/><path d="M18 9h2v6h-2z"/><path d="M2 10h2v4H2z"/><path d="M20 10h2v4h-2z"/></svg></div>
+            <div class="match-av"><svg viewBox="0 0 24 24"><path d="M9 18c-1 1.3-1 2.7 0 3.5s2.4.7 3.5 0l6.5-6.5c.7-1.1.8-2.4 0-3.5L15 8l1-3-3 1-3.5-3.5C8.4 1.3 7 1.3 6 2S5.2 4.6 6 5.5L9 9l-3 4 3 5z"/></svg></div>
+          </div>
+          <div class="match-info">
+            <div class="match-names">Esteira ↔ Guitarra Fender</div>
+            <div class="match-desc">Carol · Pedro — Floripa</div>
+          </div>
+          <div class="match-pct">78%</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- ── CTA + FOOTER — segunda shell ─────────────────────────── -->
-<div class="page" style="padding-top:0;">
-<div class="shell" style="margin-top:12px;">
 
   <section class="cta-section">
     <div class="section-tag">✦ Early Access</div>
@@ -726,30 +1010,51 @@
 <script>
   /* ── DARK MODE ── */
   const toggle = document.getElementById('themeToggle');
+  const iconMoon = document.getElementById('iconMoon');
+  const iconSun  = document.getElementById('iconSun');
+  function syncIcon() {
+    const dark = document.body.classList.contains('dark');
+    iconMoon.style.display = dark  ? 'none'  : '';
+    iconSun.style.display  = dark  ? ''      : 'none';
+  }
   if (localStorage.getItem('dotrade-theme') === 'dark') {
     document.body.classList.add('dark');
-    toggle.textContent = 'Claro';
   }
+  syncIcon();
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
     const dark = document.body.classList.contains('dark');
-    toggle.textContent = dark ? 'Claro' : 'Escuro';
     localStorage.setItem('dotrade-theme', dark ? 'dark' : 'light');
+    syncIcon();
   });
 
-  /* ── CARD ROTATION ── */
-  const slots  = ['slot-front','slot-middle','slot-back'];
-  const floats = ['float-a',   'float-b',   'float-c'  ];
+  /* ── CARD ROTATION (4 cards, 3 visible + 1 hidden) ── */
+  const slots  = ['slot-front','slot-middle','slot-back','slot-hidden'];
+  const floats = ['float-a',   'float-b',   'float-c',  ''          ];
   const cards  = Array.from(document.querySelectorAll('.floating-card'));
-  let order = [0,1,2];
+  let order = [0,1,2,3];
   function applyPositions() {
     order.forEach((ci, si) => {
-      cards[ci].classList.remove(...slots,...floats);
-      cards[ci].classList.add(slots[si], floats[si]);
+      cards[ci].classList.remove('slot-front','slot-middle','slot-back','slot-hidden','float-a','float-b','float-c');
+      cards[ci].classList.add(slots[si]);
+      if (floats[si]) cards[ci].classList.add(floats[si]);
     });
   }
   applyPositions();
-  setInterval(() => { order.push(order.shift()); applyPositions(); }, 2600);
+  setInterval(() => { order.push(order.shift()); applyPositions(); }, 4800);
+
+  /* ── DARK MODE: swap art backgrounds ── */
+  function updateArtBgs() {
+    const dark = document.body.classList.contains('dark');
+    document.querySelectorAll('.fc-art[data-dark-bg]').forEach(el => {
+      el.style.background = dark ? el.dataset.darkBg : el.dataset.lightBg || el.style.background;
+    });
+  }
+  document.querySelectorAll('.fc-art[data-dark-bg]').forEach(el => {
+    el.dataset.lightBg = el.style.background;
+  });
+  updateArtBgs();
+  document.getElementById('themeToggle').addEventListener('click', updateArtBgs);
 
   /* ── SCROLL REVEAL ── */
   const io = new IntersectionObserver(entries => {
