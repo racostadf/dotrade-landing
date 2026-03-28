@@ -123,6 +123,34 @@
     .theme-toggle:hover { transform: translateY(-1px); }
     .theme-toggle svg { width: 18px; height: 18px; }
 
+    /* ── ANNOUNCEMENT PILL ───────────────────────────────────── */
+    .announce-wrap {
+      display: flex; justify-content: center;
+      padding: 4px 36px 18px;
+    }
+    .announce-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 999px;
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      backdrop-filter: blur(10px);
+      font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+      color: var(--pill-text);
+      white-space: nowrap;
+      transition: background 0.45s, border-color 0.45s, color 0.45s;
+      user-select: none;
+    }
+    .announce-star {
+      font-size: 13px; color: var(--green); line-height: 1;
+      flex-shrink: 0;
+    }
+    .announce-dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--pill-border);
+      flex-shrink: 0;
+    }
+
     /* ── HERO ────────────────────────────────────────────────── */
     .hero {
       display: grid; grid-template-columns: 1.05fr 0.95fr;
@@ -503,6 +531,7 @@
     @media (max-width: 640px) {
       .page { padding: 8px 12px; }
       .header { padding: 18px 18px 10px; }
+      .announce-wrap { padding: 2px 18px 14px; }
       .hero { padding: 8px 18px 36px; }
       .card-stack { transform: scale(0.9); transform-origin: center; }
       .features-grid-6 { grid-template-columns: 1fr; }
@@ -539,6 +568,14 @@
       <svg id="iconSun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
   </header>
+
+  <!-- ── ANNOUNCEMENT PILL ────────────────────────────────────── -->
+  <div class="announce-wrap">
+    <div class="announce-pill">
+      <span class="announce-star">✦</span>
+      Algoritmo Powered by AI
+    </div>
+  </div>
 
   <!-- ── HERO ─────────────────────────────────────────────────── -->
   <section class="hero">
