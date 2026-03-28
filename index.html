@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DoTrade — Troca. Não Troca. Repete.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --page-bg:       #ececec;
+      --shell-bg:      radial-gradient(circle at 22% 18%, rgba(168,40,40,0.10), transparent 24%),
+                       linear-gradient(180deg, #f8f8f8 0%, #ededed 100%);
+      --shell-border:  rgba(0,0,0,0.06);
+      --text:          #0f0f10;
+      --sub:           #4a4a4d;
+      --accent:        #a83232;
+      --accent2:       #d49b20;
+      --green:         #1e8a4a;
+      --pill-bg:       #ffffff;
+      --pill-border:   rgba(0,0,0,0.06);
+      --pill-text:     #5b5b60;
+      --secondary-bg:  #ffffff;
+      --secondary-border: rgba(0,0,0,0.10);
+      --secondary-text:   #111111;
+      --feature-bg:    rgba(255,255,255,0.72);
+      --feature-border: rgba(0,0,0,0.06);
+      --shadow:        0 22px 70px rgba(20,20,20,0.12);
+      --card-bg:       #fbf8f3;
+      --card-sub:      #48423b;
+      --divider:       rgba(0,0,0,0.07);
+      --invert-bg:     #0f0f10;
+      --invert-text:   #f5f2ec;
+      --invert-muted:  rgba(245,242,236,0.55);
+      --invert-row:    rgba(255,255,255,0.06);
+    }
+
+    body.dark {
+      --page-bg:       #0a0a0a;
+      --shell-bg:      radial-gradient(circle at 20% 22%, rgba(140,20,20,0.28), transparent 26%),
+                       radial-gradient(circle at 72% 28%, rgba(212,155,32,0.07), transparent 18%),
+                       linear-gradient(135deg, #090909 0%, #111111 46%, #050505 100%);
+      --shell-border:  rgba(255,255,255,0.10);
+      --text:          #ffffff;
+      --sub:           rgba(255,255,255,0.65);
+      --accent:        #c04444;
+      --pill-bg:       rgba(255,255,255,0.08);
+      --pill-border:   rgba(255,255,255,0.10);
+      --pill-text:     rgba(255,255,255,0.80);
+      --secondary-bg:  rgba(255,255,255,0.08);
+      --secondary-border: rgba(255,255,255,0.10);
+      --secondary-text:   #ffffff;
+      --feature-bg:    rgba(255,255,255,0.05);
+      --feature-border: rgba(255,255,255,0.10);
+      --shadow:        0 25px 80px rgba(0,0,0,0.50);
+      --card-bg:       #1c1916;
+      --card-sub:      rgba(240,236,230,0.55);
+      --divider:       rgba(255,255,255,0.08);
+      --invert-bg:     #ffffff;
+      --invert-text:   #0f0f10;
+      --invert-muted:  rgba(15,15,16,0.55);
+      --invert-row:    rgba(0,0,0,0.06);
+    }
+
+    /* ── RESET ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      transition: background 0.45s ease, color 0.45s ease;
+    }
+
+    /* ── PAGE + SHELL ────────────────────────────────────────── */
+    .page  { min-height: 100vh; padding: 12px; }
+    .shell {
+      max-width: 1380px;
+      margin: 0 auto;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid var(--shell-border);
+      background: var(--shell-bg);
+      box-shadow: var(--shadow);
+      transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+    }
+
+    /* ── HEADER ──────────────────────────────────────────────── */
+    .header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 22px 36px;
+    }
+    .logo-pill {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 9px 16px; border-radius: 999px;
+      border: 1px solid var(--pill-border);
+      background: var(--pill-bg);
+      color: var(--text);
+      font-size: 15px; font-weight: 800; letter-spacing: -0.03em;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      transition: background 0.45s, border-color 0.45s;
+    }
+    .boar-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .nav { display: flex; align-items: center; gap: 32px; }
+    .nav a {
+      color: var(--sub); text-decoration: none;
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--text); }
+    .theme-toggle {
+      border: 1px solid var(--secondary-border);
+      background: var(--secondary-bg);
+      color: var(--secondary-text);
+      border-radius: 999px; padding: 10px 18px;
+      font-size: 14px; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: all 0.3s ease;
+    }
+    .theme-toggle:hover { transform: translateY(-1px); }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    .hero {
+      display: grid; grid-template-columns: 1.05fr 0.95fr;
+      align-items: center; gap: 32px;
+      padding: 8px 48px 64px;
+    }
+    .hero h1 {
+      font-size: clamp(58px, 8vw, 92px);
+      line-height: 0.92; letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+    .accent  { color: var(--accent); }
+    .hero-lead {
+      max-width: 520px; margin: 28px 0 0;
+      color: var(--sub);
+      font-size: clamp(17px, 2vw, 20px); line-height: 1.65;
+    }
+    .hero-subaccent {
+      margin: 4px 0 0; color: var(--accent);
+      font-size: clamp(17px, 2vw, 20px); font-weight: 700;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+    .btn-primary, .btn-secondary, .card-button {
+      border: 0; border-radius: 999px; cursor: pointer;
+      font-weight: 700; font-family: inherit;
+      transition: transform 0.2s ease, filter 0.2s ease, background 0.3s ease, color 0.3s ease;
+    }
+    .btn-primary:hover, .btn-secondary:hover, .card-button:hover, .theme-toggle:hover { transform: translateY(-1px); }
+    .btn-primary   { background: #e8b83a; color: #111; padding: 14px 22px; font-size: 14px; }
+    .btn-secondary { background: var(--secondary-bg); color: var(--secondary-text); border: 1px solid var(--secondary-border); padding: 14px 22px; font-size: 14px; }
+
+    .swipe-hint { display: flex; gap: 10px; margin-top: 22px; align-items: center; flex-wrap: wrap; }
+    .swipe-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 15px; border-radius: 999px;
+      border: 1px solid var(--secondary-border);
+      background: var(--secondary-bg); color: var(--secondary-text);
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .swipe-btn:hover { transform: translateY(-1px); }
+    .swipe-btn.no   { border-color: rgba(200,50,50,0.3); color: #c83232; }
+    .swipe-btn.cash { border-color: rgba(212,155,32,0.3); color: #a07010; }
+    .swipe-btn.yes  { border-color: rgba(40,150,80,0.3); color: #1e7a40; }
+    body.dark .swipe-btn.no   { color: #e06060; }
+    body.dark .swipe-btn.cash { color: #d4a030; }
+    body.dark .swipe-btn.yes  { color: #50c880; }
+
+    .hero-note { max-width: 520px; margin-top: 18px; color: var(--sub); font-size: 14px; line-height: 1.7; }
+
+    /* ── FLOATING CARD STACK ─────────────────────────────────── */
+    .hero-visual {
+      position: relative; min-height: 500px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .card-stack { position: relative; width: 430px; height: 430px; }
+
+    .floating-card {
+      position: absolute; width: 238px; padding: 12px;
+      border-radius: 18px; border: 1px solid rgba(0,0,0,0.10);
+      background: var(--card-bg); color: var(--text);
+      box-shadow: 0 22px 50px rgba(0,0,0,0.18);
+      transition: left 0.9s ease, top 0.9s ease, transform 0.9s ease,
+                  filter 0.9s ease, opacity 0.9s ease, background 0.45s ease;
+      will-change: left, top, transform;
+    }
+    body.dark .floating-card { border-color: rgba(255,255,255,0.08); box-shadow: 0 22px 50px rgba(0,0,0,0.55); }
+
+    .slot-front  { left: 0;     top: 32px; z-index: 3; opacity: 1;    filter: blur(0);     transform: rotate(-7deg) translateY(var(--fy,0px)) scale(1);    }
+    .slot-middle { left: 84px;  top: 40px; z-index: 2; opacity: 0.98; filter: blur(0);     transform: rotate(2deg)  translateY(var(--fy,0px)) scale(0.98); }
+    .slot-back   { left: 168px; top: 48px; z-index: 1; opacity: 0.95; filter: blur(0.2px); transform: rotate(9deg)  translateY(var(--fy,0px)) scale(0.96); }
+
+    .float-a { animation: floatA 5.6s ease-in-out infinite; }
+    .float-b { animation: floatB 6.2s ease-in-out infinite; }
+    .float-c { animation: floatC 5.9s ease-in-out infinite; }
+
+    @property --fy { syntax: '<length>'; initial-value: 0px; inherits: false; }
+    @keyframes floatA { 0%,100% { --fy: 0px; } 50% { --fy: -10px; } }
+    @keyframes floatB { 0%,100% { --fy: 0px; } 50% { --fy: -14px; } }
+    @keyframes floatC { 0%,100% { --fy: 0px; } 50% { --fy:  -8px; } }
+
+    .card-dots { display: flex; gap: 4px; padding: 0 8px; margin-bottom: 12px; }
+    .dot       { width: 10px; height: 10px; border-radius: 999px; }
+    .dot.red    { background: #e88a7d; }
+    .dot.yellow { background: #eec44c; }
+    .dot.green  { background: #72c17a; }
+
+    .floating-card h3 { margin: 0; padding: 0 8px; font-size: 19px; letter-spacing: -0.04em; font-weight: 900; }
+    .card-panel { margin-top: 12px; border-radius: 14px; padding: 12px; }
+    .panel-soft { background: #f1eee8; }
+    .panel-gold { background: #f0c946; }
+    .panel-rose { background: #f2d4da; }
+    body.dark .panel-soft { background: #2a2520; }
+    body.dark .panel-gold { background: #3a2e10; }
+    body.dark .panel-rose { background: #2a1a1e; }
+
+    .card-art { height: 132px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 64px; }
+    .art-soft { background: #ebe6de; }
+    .art-gold { background: #e2bd3f; }
+    .art-rose { background: #eec1ca; }
+    body.dark .art-soft { background: #1e1a15; }
+    body.dark .art-gold { background: #2e2408; }
+    body.dark .art-rose { background: #1e1014; }
+
+    .card-body   { padding: 16px 8px 4px; }
+    .card-body p { margin: 0; color: var(--card-sub); font-size: 14px; line-height: 1.45; }
+    .card-button { width: 100%; margin-top: 16px; padding: 12px 16px; border-radius: 11px; background: #66635f; color: #fff; font-size: 14px; }
+    body.dark .card-button { background: rgba(255,255,255,0.15); }
+
+    /* ── DIVIDER ─────────────────────────────────────────────── */
+    .divider { height: 1px; background: var(--divider); margin: 0 36px; }
+
+    /* ── SECTION BASE ────────────────────────────────────────── */
+    .section-tag {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--accent); font-size: 13px; font-weight: 700;
+      letter-spacing: 0.04em; margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 900; line-height: 0.96;
+      letter-spacing: -0.05em;
+      margin-bottom: 18px;
+    }
+    .section-body {
+      font-size: 17px; font-weight: 300;
+      color: var(--sub); line-height: 1.7; max-width: 520px;
+    }
+
+    /* ── COMO FUNCIONA ───────────────────────────────────────── */
+    .how-section { padding: 72px 48px; }
+    .how-grid-2 {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; margin-top: 48px;
+    }
+    .steps { display: flex; flex-direction: column; gap: 32px; }
+    .step {
+      display: flex; gap: 18px; align-items: flex-start;
+      opacity: 0; transform: translateX(-36px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .step.visible { opacity: 1; transform: translateX(0); }
+    .step-num {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: var(--accent); color: white;
+      font-size: 17px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; letter-spacing: -0.03em;
+    }
+    .step-text h4 { font-size: 17px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+    .step-text p  { font-size: 14px; color: var(--sub); line-height: 1.6; }
+
+    /* Phone mockup */
+    .phone-wrap {
+      display: flex; justify-content: center;
+      opacity: 0; transform: translateX(36px);
+      transition: opacity 0.65s ease 0.15s, transform 0.65s ease 0.15s;
+    }
+    .phone-wrap.visible { opacity: 1; transform: translateX(0); }
+    .phone {
+      width: 238px; height: 480px;
+      background: var(--secondary-bg);
+      border-radius: 36px; border: 2px solid var(--secondary-border);
+      box-shadow: var(--shadow); overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: background 0.45s, border-color 0.45s;
+    }
+    .phone-notch { width: 76px; height: 22px; background: var(--feature-bg); border-radius: 0 0 14px 14px; margin: 0 auto; }
+    .phone-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px; }
+    .phone-card   { width: 100%; background: var(--feature-bg); border: 1px solid var(--feature-border); border-radius: 16px; padding: 16px; text-align: center; }
+    .phone-card-emoji { font-size: 48px; }
+    .phone-card-name  { font-size: 14px; font-weight: 800; letter-spacing: -0.03em; margin-top: 8px; }
+    .phone-card-sub   { font-size: 12px; color: var(--sub); margin-top: 2px; }
+    .phone-actions    { display: flex; justify-content: center; gap: 12px; padding: 0 20px 24px; }
+    .p-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1.5px solid var(--feature-border);
+      background: var(--secondary-bg); font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      animation: phoneFloat 3s ease-in-out infinite;
+    }
+    .p-btn:nth-child(2) { animation-delay: 0.5s; }
+    .p-btn:nth-child(3) { animation-delay: 1s; }
+    @keyframes phoneFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+    /* ── FEATURES ────────────────────────────────────────────── */
+    .features-section { padding: 0 48px 72px; }
+    .features-grid-6 {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-top: 32px;
+    }
+    .feat-card {
+      border: 1px solid var(--feature-border);
+      background: var(--feature-bg);
+      border-radius: 22px; padding: 22px;
+      backdrop-filter: blur(10px);
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease, background 0.45s, border-color 0.45s;
+    }
+    .feat-card.visible { opacity: 1; transform: translateY(0); }
+    .feat-icon { width: 36px; height: 36px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05); font-size: 18px; }
+    body.dark .feat-icon { background: rgba(255,255,255,0.10); }
+    .feat-card h3 { margin: 14px 0 7px; font-size: 17px; font-weight: 800; letter-spacing: -0.03em; }
+    .feat-card p  { margin: 0; color: var(--sub); font-size: 14px; line-height: 1.65; }
+
+    /* ── ALGORITHM / MATCH ───────────────────────────────────── */
+    .algo-wrap {
+      background: var(--invert-bg);
+      padding: 72px 48px;
+      transition: background 0.45s;
+    }
+    .algo-inner {
+      max-width: 1380px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 72px; align-items: center;
+    }
+    .algo-tag   { color: var(--invert-muted); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 14px; }
+    .algo-title { font-size: clamp(36px, 4.5vw, 58px); font-weight: 900; line-height: 0.96; letter-spacing: -0.05em; color: var(--invert-text); margin-bottom: 18px; }
+    .algo-body  { font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--invert-muted); max-width: 480px; }
+
+    .match-list { display: flex; flex-direction: column; gap: 12px; }
+    .match-row {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--invert-row);
+      border-radius: 14px; padding: 16px 20px;
+      opacity: 0; transform: translateX(36px);
+      transition: opacity 0.5s ease, transform 0.5s ease, background 0.45s;
+    }
+    .match-row.visible { opacity: 1; transform: translateX(0); }
+    .match-avatars { display: flex; }
+    .match-av {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      margin-left: -6px; border: 2px solid var(--invert-bg);
+    }
+    .match-av:first-child { margin-left: 0; }
+    .match-info  { flex: 1; }
+    .match-names { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; color: var(--invert-text); }
+    .match-desc  { font-size: 12px; color: var(--invert-muted); margin-top: 2px; }
+    .match-pct   { font-size: 18px; font-weight: 900; color: #4ade80; letter-spacing: -0.03em; }
+
+    /* ── CTA ─────────────────────────────────────────────────── */
+    .cta-section {
+      padding: 80px 48px;
+      text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    .cta-title { font-size: clamp(48px, 6.5vw, 86px); font-weight: 900; line-height: 0.94; letter-spacing: -0.06em; }
+    .cta-sub   { font-size: 18px; font-weight: 300; color: var(--sub); max-width: 420px; line-height: 1.6; }
+    .cta-btns  { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-cta-main {
+      padding: 15px 36px;
+      background: var(--accent); color: white;
+      border: none; border-radius: 999px;
+      font-family: inherit; font-size: 16px; font-weight: 800;
+      letter-spacing: -0.02em; cursor: pointer; transition: all 0.25s;
+    }
+    .btn-cta-main:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .store-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .store-badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      background: var(--secondary-bg); border: 1px solid var(--secondary-border);
+      border-radius: 12px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      text-decoration: none; color: var(--text);
+    }
+    .store-badge:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    .footer-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 36px;
+      border-top: 1px solid var(--feature-border);
+      transition: border-color 0.45s;
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 15px; font-weight: 800; letter-spacing: -0.03em;
+      color: var(--text); text-decoration: none;
+    }
+    .footer-links { display: flex; gap: 22px; }
+    .footer-links a { color: var(--sub); font-size: 13px; font-weight: 500; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { color: var(--sub); font-size: 13px; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 980px) {
+      .nav { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 8px 24px 48px; }
+      .hero-visual { min-height: 420px; }
+      .card-stack { width: 320px; height: 320px; }
+      .floating-card { width: 210px; }
+      .slot-front { left: 0; } .slot-middle { left: 60px; } .slot-back { left: 118px; }
+      .card-art { height: 118px; font-size: 56px; }
+      .how-grid-2 { grid-template-columns: 1fr; gap: 48px; }
+      .phone-wrap { display: none; }
+      .features-grid-6 { grid-template-columns: 1fr 1fr; }
+      .algo-inner { grid-template-columns: 1fr; gap: 48px; }
+      .how-section, .features-section, .cta-section { padding-inline: 24px; }
+      .algo-wrap { padding-inline: 24px; }
+      .footer-bar { flex-direction: column; gap: 16px; text-align: center; }
+    }
+    @media (max-width: 640px) {
+      .page { padding: 8px; }
+      .header { padding: 18px 18px 10px; }
+      .hero { padding: 8px 18px 36px; }
+      .card-stack { transform: scale(0.9); transform-origin: center; }
+      .features-grid-6 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+<div class="shell">
+
+  <!-- ── HEADER ───────────────────────────────────────────────── -->
+  <header class="header">
+    <a class="logo-pill" href="#">
+      <svg class="boar-icon" viewBox="0 0 120 100" fill="none">
+        <polygon points="28,48 22,30 32,44" fill="#141210"/>
+        <polygon points="38,42 34,22 44,38" fill="#141210"/>
+        <polygon points="49,38 47,18 57,36" fill="#141210"/>
+        <polygon points="60,36 60,16 68,34" fill="#141210"/>
+        <polygon points="70,38 73,18 78,36" fill="#141210"/>
+        <ellipse cx="58" cy="64" rx="38" ry="26" fill="#C8301F"/>
+        <ellipse cx="26" cy="62" rx="20" ry="18" fill="#C8301F"/>
+        <ellipse cx="13" cy="66" rx="9"  ry="7"  fill="#B02818"/>
+        <circle cx="10" cy="65" r="2" fill="#141210"/>
+        <circle cx="16" cy="65" r="2" fill="#141210"/>
+        <path d="M8 70 Q4 76 8 80"   stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M18 72 Q15 79 19 82" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M22 56 Q26 52 30 56" stroke="#141210" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <rect x="34" y="84" width="10" height="14" rx="5" fill="#B02818"/>
+        <rect x="50" y="84" width="10" height="14" rx="5" fill="#B02818"/>
+        <rect x="66" y="84" width="10" height="14" rx="5" fill="#B02818"/>
+        <rect x="80" y="84" width="10" height="14" rx="5" fill="#B02818"/>
+        <path d="M96 60 Q108 50 106 62 Q104 72 96 70" stroke="#B02818" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+      DoTrade
+    </a>
+    <nav class="nav">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#features">Features</a>
+      <a href="#algoritmo">Algoritmo</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle">Escuro</button>
+  </header>
+
+  <!-- ── HERO ─────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div>
+      <h1>
+        Troca.<br/>
+        Não Troca.<br/>
+        <span class="accent">Repete.</span>
+      </h1>
+      <p class="hero-lead">
+        Deslize ofertas naturalmente, negocie com quem tem o que você quer e transforme seus itens parados em trocas reais.
+      </p>
+      <p class="hero-subaccent">Algoritmo local. Sem comissão.</p>
+      <div class="actions">
+        <button class="btn-primary">Entrar na lista — Grátis</button>
+        <button class="btn-secondary">Ver como funciona</button>
+      </div>
+      <div class="swipe-hint">
+        <button class="swipe-btn no">✕ Não Troca</button>
+        <button class="swipe-btn cash">💰 Compensa</button>
+        <button class="swipe-btn yes">✓ Troca!</button>
+      </div>
+      <p class="hero-note">
+        Um lugar simples para troca de itens, descoberta por localização e negociação com compensação financeira. Sem cadastro complicado, sem taxas escondidas.
+      </p>
+    </div>
+
+    <div class="hero-visual">
+      <div class="card-stack" id="cardStack">
+
+        <article class="floating-card slot-front float-a">
+          <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+          <h3>Troca PS5</h3>
+          <div class="card-panel panel-soft"><div class="card-art art-soft">🎮</div></div>
+          <div class="card-body">
+            <p>Troco por câmera, notebook ou item com diferença em dinheiro.</p>
+            <button class="card-button">Ver oferta</button>
+          </div>
+        </article>
+
+        <article class="floating-card slot-middle float-b">
+          <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+          <h3>Match IA</h3>
+          <div class="card-panel panel-gold"><div class="card-art art-gold">🚲</div></div>
+          <div class="card-body">
+            <p>Sugestões próximas baseadas em localização, valor e score de match.</p>
+            <button class="card-button">Melhor match</button>
+          </div>
+        </article>
+
+        <article class="floating-card slot-back float-c">
+          <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+          <h3>Câmera Sony</h3>
+          <div class="card-panel panel-rose"><div class="card-art art-rose">📷</div></div>
+          <div class="card-body">
+            <p>Excelente estado · Curitiba. Aceito iPhone 14 ou equivalente.</p>
+            <button class="card-button">Propor troca</button>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── COMO FUNCIONA ─────────────────────────────────────────── -->
+  <section class="how-section" id="como-funciona">
+    <div class="section-tag">✦ Como funciona</div>
+    <div class="how-grid-2">
+      <div>
+        <h2 class="section-title">Simples como<br>um deslize</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h4>Cadastre o que você tem</h4>
+              <p>Fotografe, descreva e publique. Em menos de 2 minutos seu item está visível para toda a rede.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <h4>Deslize e encontre trocas</h4>
+              <p>Nosso algoritmo sugere trocas com alta compatibilidade. Troca, Não Troca, ou proponha compensação.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <h4>Negocie e feche o deal</h4>
+              <p>Match? Converse diretamente, combine a entrega e troque com segurança. Sem taxas escondidas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-card">
+              <div class="phone-card-emoji">🎮</div>
+              <div class="phone-card-name">PS5 Digital</div>
+              <div class="phone-card-sub">Semi-novo · São Paulo</div>
+            </div>
+          </div>
+          <div class="phone-actions">
+            <div class="p-btn">✕</div>
+            <div class="p-btn">💰</div>
+            <div class="p-btn">✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── FEATURES ──────────────────────────────────────────────── -->
+  <section class="features-section" id="features">
+    <div class="section-tag">✦ Por que DoTrade</div>
+    <h2 class="section-title">Tudo que uma<br>boa troca precisa</h2>
+    <div class="features-grid-6">
+      <article class="feat-card">
+        <div class="feat-icon">🤝</div>
+        <h3>Match inteligente</h3>
+        <p>Algoritmo analisa o que você tem e o que quer para sugerir pares com alta compatibilidade automaticamente.</p>
+      </article>
+      <article class="feat-card">
+        <div class="feat-icon">💰</div>
+        <h3>Compensação financeira</h3>
+        <p>Valores diferentes? Proponha uma compensação justa e feche do jeito que faz sentido para os dois lados.</p>
+      </article>
+      <article class="feat-card">
+        <div class="feat-icon">🔒</div>
+        <h3>Reputação verificada</h3>
+        <p>Sistema de avaliações e histórico de trocas para você saber com quem está negociando antes de fechar.</p>
+      </article>
+      <article class="feat-card">
+        <div class="feat-icon">📍</div>
+        <h3>Trocas por região</h3>
+        <p>Filtre por proximidade e encontre trocas na sua cidade, bairro ou até na sua rua.</p>
+      </article>
+      <article class="feat-card">
+        <div class="feat-icon">💬</div>
+        <h3>Chat integrado</h3>
+        <p>Converse diretamente após o match. Negocie, combine logística e confirme tudo dentro do app.</p>
+      </article>
+      <article class="feat-card">
+        <div class="feat-icon">🔔</div>
+        <h3>Alertas de match</h3>
+        <p>Você é notificado em tempo real quando alguém com o que você quer aparecer na plataforma.</p>
+      </article>
+    </div>
+  </section>
+
+</div><!-- .shell -->
+</div><!-- .page -->
+
+<!-- ── ALGORITMO — fora do shell para full-width ─────────────── -->
+<div class="algo-wrap" id="algoritmo">
+  <div class="algo-inner">
+    <div>
+      <div class="algo-tag">✦ Algoritmo</div>
+      <h2 class="algo-title">Trocas que<br>fazem sentido</h2>
+      <p class="algo-body">
+        O DoTrade cruza categorias, valores estimados, localização e preferências para calcular a compatibilidade de cada troca — em milissegundos.
+      </p>
+    </div>
+    <div class="match-list" id="matchList">
+      <div class="match-row">
+        <div class="match-avatars"><div class="match-av">🎮</div><div class="match-av">🚲</div></div>
+        <div class="match-info">
+          <div class="match-names">PS5 Digital ↔ Bicicleta Gravel</div>
+          <div class="match-desc">Rodrigo · Lucas — São Paulo</div>
+        </div>
+        <div class="match-pct">94%</div>
+      </div>
+      <div class="match-row">
+        <div class="match-avatars"><div class="match-av">📷</div><div class="match-av">📱</div></div>
+        <div class="match-info">
+          <div class="match-names">Sony A6400 ↔ iPhone 14 Pro</div>
+          <div class="match-desc">Marina · Ana — Rio de Janeiro</div>
+        </div>
+        <div class="match-pct">91%</div>
+      </div>
+      <div class="match-row">
+        <div class="match-avatars"><div class="match-av">💻</div><div class="match-av">🎹</div></div>
+        <div class="match-info">
+          <div class="match-names">MacBook Air ↔ Teclado MIDI</div>
+          <div class="match-desc">Felipe · Camila — Curitiba</div>
+        </div>
+        <div class="match-pct">87%</div>
+      </div>
+      <div class="match-row">
+        <div class="match-avatars"><div class="match-av">🛸</div><div class="match-av">🎧</div></div>
+        <div class="match-info">
+          <div class="match-names">Drone DJI ↔ Headphones Sony</div>
+          <div class="match-desc">Bruno · Isabela — Belo Horizonte</div>
+        </div>
+        <div class="match-pct">82%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CTA + FOOTER — segunda shell ─────────────────────────── -->
+<div class="page" style="padding-top:0;">
+<div class="shell" style="margin-top:12px;">
+
+  <section class="cta-section">
+    <div class="section-tag">✦ Early Access</div>
+    <h2 class="cta-title">Pronto para<br>trocar?</h2>
+    <p class="cta-sub">Entre na lista de espera e seja um dos primeiros a usar o DoTrade quando lançarmos.</p>
+    <div class="cta-btns">
+      <button class="btn-cta-main">Entrar na lista de espera</button>
+    </div>
+    <div class="store-row">
+      <a class="store-badge" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        App Store
+      </a>
+      <a class="store-badge" href="#">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.65.19.96.05l13.2-7.54-2.83-2.83-11.33 10.32zM.5 1.77C.19 2.1 0 2.58 0 3.19v17.62c0 .61.19 1.09.5 1.42l.07.07 9.87-9.87v-.23L.57 1.7l-.07.07zm21.3 9.54l-2.8-1.6-3.15 3.15 3.15 3.15 2.82-1.61c.8-.46.8-1.62-.02-2.09zM4.14.24L17.34 7.8l-2.83 2.83L3.18.31c.31-.14.66-.12.96-.07z"/></svg>
+        Google Play
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer-bar">
+    <a class="footer-logo" href="#">
+      <svg width="22" height="22" viewBox="0 0 120 100" fill="none">
+        <ellipse cx="58" cy="64" rx="38" ry="26" fill="#C8301F"/>
+        <ellipse cx="26" cy="62" rx="20" ry="18" fill="#C8301F"/>
+        <ellipse cx="13" cy="66" rx="9"  ry="7"  fill="#B02818"/>
+      </svg>
+      DoTrade
+    </a>
+    <nav class="footer-links">
+      <a href="#">Privacidade</a>
+      <a href="#">Termos</a>
+      <a href="#">Contato</a>
+      <a href="#">Instagram</a>
+    </nav>
+    <span class="footer-copy">© 2026 DoTrade. Todos os direitos reservados.</span>
+  </footer>
+
+</div><!-- .shell -->
+</div><!-- .page -->
+
+<script>
+  /* ── DARK MODE ── */
+  const toggle = document.getElementById('themeToggle');
+  if (localStorage.getItem('dotrade-theme') === 'dark') {
+    document.body.classList.add('dark');
+    toggle.textContent = 'Claro';
+  }
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const dark = document.body.classList.contains('dark');
+    toggle.textContent = dark ? 'Claro' : 'Escuro';
+    localStorage.setItem('dotrade-theme', dark ? 'dark' : 'light');
+  });
+
+  /* ── CARD ROTATION ── */
+  const slots  = ['slot-front','slot-middle','slot-back'];
+  const floats = ['float-a',   'float-b',   'float-c'  ];
+  const cards  = Array.from(document.querySelectorAll('.floating-card'));
+  let order = [0,1,2];
+  function applyPositions() {
+    order.forEach((ci, si) => {
+      cards[ci].classList.remove(...slots,...floats);
+      cards[ci].classList.add(slots[si], floats[si]);
+    });
+  }
+  applyPositions();
+  setInterval(() => { order.push(order.shift()); applyPositions(); }, 2600);
+
+  /* ── SCROLL REVEAL ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), e.target.dataset.delay || 0);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.step').forEach((el,i)   => { el.dataset.delay = i*100; io.observe(el); });
+  document.querySelectorAll('.feat-card').forEach((el,i) => { el.dataset.delay = i*70;  io.observe(el); });
+  document.querySelectorAll('.match-row').forEach((el,i) => { el.dataset.delay = i*100; io.observe(el); });
+  document.querySelectorAll('.phone-wrap').forEach(el    => io.observe(el));
+</script>
+</body>
+</html>
