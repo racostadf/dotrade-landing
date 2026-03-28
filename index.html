@@ -125,9 +125,8 @@
 
     /* ── ANNOUNCEMENT PILL ───────────────────────────────────── */
     .announce-wrap {
-      position: absolute; left: 0; right: 0;
       display: flex; justify-content: center;
-      top: 24px; pointer-events: none; z-index: 10;
+      padding: 0 0 20px;
     }
     .announce-pill {
       display: inline-flex; align-items: center; gap: 6px;
@@ -151,7 +150,7 @@
     .hero {
       display: grid; grid-template-columns: 1.05fr 0.95fr;
       align-items: center; gap: 32px;
-      padding: 56px 48px 72px;
+      padding: 24px 48px 72px;
       min-height: 82vh;
     }
     .hero h1 {
@@ -556,7 +555,6 @@
     @media (max-width: 980px) {
       .nav { display: none; }
       .hero { grid-template-columns: 1fr; padding: 8px 24px 48px; }
-      .announce-wrap { position: static; padding: 16px 0 4px; grid-column: 1 / -1; }
       .hero-visual { min-height: 420px; }
       .card-stack { width: 320px; height: 320px; }
       .floating-card { width: 210px; }
@@ -612,14 +610,16 @@
     </button>
   </header>
 
-  <!-- ── HERO ─────────────────────────────────────────────────── -->
-  <section class="hero" style="position:relative">
-    <div class="announce-wrap">
-      <div class="announce-pill">
-        <span class="announce-star">✦</span>
-        Algoritmo Powered by AI
-      </div>
+  <!-- ── ANNOUNCEMENT PILL ────────────────────────────────────── -->
+  <div class="announce-wrap">
+    <div class="announce-pill">
+      <span class="announce-star">✦</span>
+      Algoritmo Powered by AI
     </div>
+  </div>
+
+  <!-- ── HERO ─────────────────────────────────────────────────── -->
+  <section class="hero">
     <div>
       <h1>
         Troca.<br/>
