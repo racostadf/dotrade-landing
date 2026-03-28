@@ -10,9 +10,9 @@
   <style>
     /* ── TOKENS ──────────────────────────────────────────────── */
     :root {
-      --page-bg:       #b8b028;
+      --page-bg:       #c0b820;
       --shell-bg:      radial-gradient(circle at 22% 18%, rgba(168,40,40,0.09), transparent 24%),
-                       linear-gradient(180deg, #d4cc3c 0%, #c8c030 100%);
+                       linear-gradient(180deg, #ddd63e 0%, #d0ca2e 100%);
       --shell-border:  rgba(0,0,0,0.08);
       --text:          #1a1400;
       --sub:           #3a3200;
@@ -122,6 +122,10 @@
     }
     .theme-toggle:hover { transform: translateY(-1px); }
     .theme-toggle svg { width: 18px; height: 18px; }
+
+    /* ── LIGHT MODE BUTTON OVERRIDES (yellow bg) ────────────── */
+    body:not(.dark) .btn-primary   { background: #1a1600; color: #ffffff; }
+    body:not(.dark) .btn-secondary { background: #ffffff; color: #1a1600; border: 1px solid rgba(0,0,0,0.12); }
 
     /* ── ANNOUNCEMENT PILL ───────────────────────────────────── */
     .announce-wrap {
