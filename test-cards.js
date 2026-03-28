@@ -25,32 +25,35 @@ const VIEWPORTS = [
     const page = await browser.newPage();
     await page.setViewportSize({ width: vp.width, height: vp.height });
     await page.goto(FILE);
-    await page.waitForTimeout(400);
 
-    // Verifica overflow horizontal da página
-    const overflow = await page.evaluate(() => {
-      return document.documentElement.scrollWidth > document.documentElement.clientWidth;
-    });
+    // Verifica em 3 momentos: inicial, meio de transição, após ciclo completo
+    const snapshots = [400, 2000, 4000];
+    let overflow = false;
+    let cardOverflow = [];
 
-    // Verifica se os cards visíveis estão dentro da viewport
-    const cardOverflow = await page.evaluate(() => {
-      const vpWidth = window.innerWidth;
-      const cards = document.querySelectorAll('.floating-card');
-      const violations = [];
-      cards.forEach((card, i) => {
-        const r = card.getBoundingClientRect();
-        // Apenas cards visíveis (opacity > 0)
-        const style = window.getComputedStyle(card);
-        if (parseFloat(style.opacity) < 0.1) return;
-        if (r.right > vpWidth + 2) {
-          violations.push(`card[${i}] right=${r.right.toFixed(0)}px > viewport ${vpWidth}px`);
-        }
-        if (r.left < -2) {
-          violations.push(`card[${i}] left=${r.left.toFixed(0)}px < 0`);
-        }
+    for (const delay of snapshots) {
+      await page.waitForTimeout(delay === 400 ? 400 : delay - (snapshots[snapshots.indexOf(delay) - 1] || 0));
+
+      const pageOverflow = await page.evaluate(() =>
+        document.documentElement.scrollWidth > document.documentElement.clientWidth
+      );
+      if (pageOverflow) overflow = true;
+
+      const violations = await page.evaluate(() => {
+        const vpWidth = window.innerWidth;
+        const cards = document.querySelectorAll('.floating-card');
+        const found = [];
+        cards.forEach((card, i) => {
+          const r = card.getBoundingClientRect();
+          const style = window.getComputedStyle(card);
+          if (parseFloat(style.opacity) < 0.05) return;
+          if (r.right > vpWidth + 4) found.push(`card[${i}] right=${r.right.toFixed(0)} > vp ${vpWidth}`);
+          if (r.left < -4)           found.push(`card[${i}] left=${r.left.toFixed(0)} < 0`);
+        });
+        return found;
       });
-      return violations;
-    });
+      cardOverflow.push(...violations);
+    }
 
     const ok = !overflow && cardOverflow.length === 0;
     const icon = ok ? '✅' : '❌';

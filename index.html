@@ -574,9 +574,10 @@
       .hero { padding: 8px 18px 36px; }
       .card-stack { width: 200px; height: 360px; transform: none; }
       .floating-card { width: 190px; }
-      .slot-front  { left: 0; transform: rotate(-1deg) translateY(var(--fy,0px)) scale(1); }
-      .slot-middle { opacity: 0 !important; pointer-events: none; }
-      .slot-back   { opacity: 0 !important; pointer-events: none; }
+      .slot-front  { left: 0; top: 32px; transform: rotate(-1deg) translateY(var(--fy,0px)) scale(1); }
+      .slot-middle { left: 0; top: 32px; opacity: 0 !important; pointer-events: none; }
+      .slot-back   { left: 0; top: 32px; opacity: 0 !important; pointer-events: none; }
+      .slot-hidden { left: 0; top: 32px; }
       .features-grid-6 { grid-template-columns: 1fr; }
       .algo-wrap { padding-inline: 18px; }
       .match-list { width: 100%; max-width: 100%; }
