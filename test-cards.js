@@ -40,15 +40,22 @@ const VIEWPORTS = [
       if (pageOverflow) overflow = true;
 
       const violations = await page.evaluate(() => {
-        const vpWidth = window.innerWidth;
+        const vpWidth  = window.innerWidth;
         const cards = document.querySelectorAll('.floating-card');
         const found = [];
         cards.forEach((card, i) => {
           const r = card.getBoundingClientRect();
           const style = window.getComputedStyle(card);
           if (parseFloat(style.opacity) < 0.05) return;
+          // horizontal
           if (r.right > vpWidth + 4) found.push(`card[${i}] right=${r.right.toFixed(0)} > vp ${vpWidth}`);
           if (r.left < -4)           found.push(`card[${i}] left=${r.left.toFixed(0)} < 0`);
+          // vertical clipping: compare card bottom vs parent (hero-visual) bottom
+          const visual = document.querySelector('.hero-visual');
+          if (visual) {
+            const vr = visual.getBoundingClientRect();
+            if (r.bottom > vr.bottom + 4) found.push(`card[${i}] bottom=${r.bottom.toFixed(0)} > hero-visual ${vr.bottom.toFixed(0)} (clipped)`);
+          }
         });
         return found;
       });

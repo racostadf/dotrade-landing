@@ -555,10 +555,11 @@
     @media (max-width: 980px) {
       .nav { display: none; }
       .hero { grid-template-columns: 1fr; padding: 8px 24px 48px; }
-      .hero-visual { min-height: 340px; overflow: hidden; }
-      .card-stack { width: 320px; height: 320px; }
+      .hero-visual { min-height: 560px; overflow: hidden; }
+      .card-stack { width: 320px; height: 460px; }
       .floating-card { width: 210px; }
-      .slot-front { left: 0; } .slot-middle { left: 60px; } .slot-back { left: 118px; }
+      .floating-card .fc-art { height: 160px; }
+      .slot-front { left: 0; top: 16px; } .slot-middle { left: 60px; top: 24px; } .slot-back { left: 118px; top: 32px; }
       .card-art { height: 118px; font-size: 56px; }
       .how-grid-2 { grid-template-columns: 1fr; gap: 48px; }
       .phone-wrap { display: none; }
@@ -572,9 +573,10 @@
       .page { padding: 8px 12px; }
       .header { padding: 18px 18px 10px; }
       .hero { padding: 8px 18px 36px; }
-      .card-stack { width: 200px; height: 360px; transform: none; }
+      .card-stack { width: 200px; height: 400px; transform: none; }
       .floating-card { width: 190px; }
-      .slot-front  { left: 0; top: 32px; transform: rotate(-1deg) translateY(var(--fy,0px)) scale(1); }
+      .floating-card .fc-art { height: 150px; }
+      .slot-front  { left: 0; top: 16px; transform: rotate(-1deg) translateY(var(--fy,0px)) scale(1); }
       .slot-middle { left: 0; top: 32px; opacity: 0 !important; pointer-events: none; }
       .slot-back   { left: 0; top: 32px; opacity: 0 !important; pointer-events: none; }
       .slot-hidden { left: 0; top: 32px; }
