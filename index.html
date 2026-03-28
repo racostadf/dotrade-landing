@@ -507,6 +507,51 @@
     .footer-links a:hover { color: var(--text); }
     .footer-copy { color: var(--sub); font-size: 13px; }
 
+    /* ── FAQ ─────────────────────────────────────────────────── */
+    .faq-section { padding: 72px 48px 80px; }
+    .faq-inner { max-width: 680px; margin: 0 auto; }
+    .faq-header { text-align: center; margin-bottom: 48px; }
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--divider);
+      transition: border-color 0.45s;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--divider); }
+    .faq-btn {
+      width: 100%; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+      padding: 22px 0;
+      background: none; border: none; cursor: pointer;
+      text-align: left; color: var(--text);
+      font-family: inherit; font-size: 15px; font-weight: 600;
+      letter-spacing: -0.02em;
+      transition: color 0.25s;
+    }
+    .faq-btn:hover { color: var(--accent); }
+    .faq-icon {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1.5px solid var(--divider);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--sub);
+      font-size: 16px; font-weight: 300; line-height: 1;
+      transition: background 0.25s, border-color 0.25s,
+                  color 0.25s, transform 0.3s ease;
+    }
+    .faq-item.open .faq-icon {
+      background: var(--accent); border-color: var(--accent);
+      color: #fff; transform: rotate(45deg);
+    }
+    .faq-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease, padding 0.25s ease;
+    }
+    .faq-item.open .faq-body { max-height: 300px; }
+    .faq-body p {
+      font-size: 14.5px; font-weight: 400; line-height: 1.75;
+      color: var(--sub); padding-bottom: 22px;
+    }
+
     /* ── RESPONSIVE ──────────────────────────────────────────── */
     @media (max-width: 980px) {
       .nav { display: none; }
@@ -534,6 +579,7 @@
       .match-list { width: 100%; max-width: 100%; }
       .algo-body  { max-width: 100%; }
       .algo-title { font-size: clamp(28px, 8.5vw, 40px); }
+      .faq-section { padding: 48px 18px 56px; }
     }
   </style>
 </head>
@@ -557,6 +603,7 @@
       <a href="#como-funciona">Como funciona</a>
       <a href="#features">Features</a>
       <a href="#algoritmo">Algoritmo</a>
+      <a href="#faq">Dúvidas</a>
     </nav>
     <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
       <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -907,6 +954,69 @@
     </div>
   </section>
 
+  <!-- ── FAQ ──────────────────────────────────────────────────── -->
+  <section class="faq-section" id="faq">
+    <div class="faq-inner">
+      <div class="faq-header">
+        <div class="section-tag" style="justify-content:center">✦ Dúvidas frequentes</div>
+        <h2 class="section-title">Perguntas<br><span class="accent">& Respostas</span></h2>
+      </div>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            Como funciona o match de trocas?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            <p>Nosso algoritmo analisa o que você tem e o que você quer, cruza com os perfis de outros usuários e sugere trocas com alta chance de fechar. Quanto mais você desliza e interage, mais afinado o algoritmo fica para o seu perfil.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            Posso trocar qualquer tipo de item?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            <p>Quase tudo: eletrônicos, roupas, livros, calçados, artigos esportivos, instrumentos musicais e muito mais. Itens proibidos por lei ou contrários aos nossos termos de uso não são permitidos na plataforma.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            O DoTrade cobra alguma taxa?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            <p>A plataforma é gratuita para criar perfil, publicar itens e dar matches. Recursos avançados como destaque de anúncio, histórico completo e filtros premium fazem parte do plano Pro, lançado em breve.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            Como sei que a troca é segura?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            <p>Todo usuário passa por verificação de identidade antes de fechar uma troca. Avaliações públicas, histórico de trocas e um sistema de denúncias garantem que a comunidade permaneça confiável. Trocas presenciais são sempre recomendadas em locais públicos.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-btn" aria-expanded="false">
+            E se a outra pessoa não entregar o item combinado?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-body">
+            <p>Você pode abrir uma disputa diretamente no app. Nossa equipe analisa o caso com base no histórico da troca e nas avaliações de ambas as partes. Usuários com histórico negativo são suspensos automaticamente da plataforma.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </div><!-- .shell -->
 </div><!-- .page -->
 
@@ -1088,6 +1198,24 @@
   document.querySelectorAll('.feat-card').forEach((el,i) => { el.dataset.delay = i*70;  io.observe(el); });
   document.querySelectorAll('.match-row').forEach((el,i) => { el.dataset.delay = i*100; io.observe(el); });
   document.querySelectorAll('.phone-wrap').forEach(el    => io.observe(el));
+
+  /* ── FAQ ACCORDION ── */
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // fecha todos
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+      });
+      // abre o clicado se estava fechado
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
 </script>
 </body>
 </html>
