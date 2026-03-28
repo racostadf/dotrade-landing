@@ -124,44 +124,27 @@
     .theme-toggle svg { width: 18px; height: 18px; }
 
     /* ── ANNOUNCEMENT PILL ───────────────────────────────────── */
-    @keyframes starSpin {
-      0%   { transform: rotate(0deg) scale(1); }
-      50%  { transform: rotate(20deg) scale(1.15); }
-      100% { transform: rotate(0deg) scale(1); }
-    }
     .announce-wrap {
+      position: absolute; left: 0; right: 0;
       display: flex; justify-content: center;
-      padding: 4px 36px 22px;
+      top: 24px; pointer-events: none; z-index: 10;
     }
     .announce-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 18px 7px 7px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px;
       border-radius: 999px;
       background: var(--pill-bg);
       border: 1px solid var(--pill-border);
       backdrop-filter: blur(10px);
-      font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-size: 11.5px; font-weight: 500; letter-spacing: 0.01em;
       color: var(--pill-text);
       white-space: nowrap;
+      pointer-events: auto;
       transition: background 0.45s, border-color 0.45s, color 0.45s;
       user-select: none;
     }
-    .announce-star-wrap {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: #3ecf68;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 0 0 4px rgba(62,207,104,0.18);
-    }
     .announce-star {
-      font-size: 13px; color: #fff; line-height: 1; display: block;
-      animation: starSpin 3.2s ease-in-out infinite;
-    }
-    .announce-sep {
-      width: 1px; height: 12px;
-      background: var(--pill-border);
-      flex-shrink: 0;
+      font-size: 11px; color: #3ecf68; line-height: 1; flex-shrink: 0;
     }
 
     /* ── HERO ────────────────────────────────────────────────── */
@@ -544,7 +527,6 @@
     @media (max-width: 640px) {
       .page { padding: 8px 12px; }
       .header { padding: 18px 18px 10px; }
-      .announce-wrap { padding: 2px 18px 14px; }
       .hero { padding: 8px 18px 36px; }
       .card-stack { transform: scale(0.9); transform-origin: center; }
       .features-grid-6 { grid-template-columns: 1fr; }
@@ -582,17 +564,14 @@
     </button>
   </header>
 
-  <!-- ── ANNOUNCEMENT PILL ────────────────────────────────────── -->
-  <div class="announce-wrap">
-    <div class="announce-pill">
-      <span class="announce-star-wrap"><span class="announce-star">✦</span></span>
-      <span class="announce-sep"></span>
-      Algoritmo Powered by AI
-    </div>
-  </div>
-
   <!-- ── HERO ─────────────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" style="position:relative">
+    <div class="announce-wrap">
+      <div class="announce-pill">
+        <span class="announce-star">✦</span>
+        Algoritmo Powered by AI
+      </div>
+    </div>
     <div>
       <h1>
         Troca.<br/>
